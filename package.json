@@ -6,10 +6,11 @@
   "scripts": {
     "test": "DISCOVER_AS_LOCALHOST=true mocha",
     "dev": "./start-dev.sh",
+    "local": "NODE_ENV=dev node app.js",
     "start": "node app.js"
   },
   "repository": "https://github.com/olegabu/fabric-starter-rest",
-  "author": "Oleg Abdrashitov <olegabu73@gmail.com>",
+  "author": "Oleg Abdrashitov <olegabu73@gmail.com>, Andrijan Ostrun <andrijan.ostrun@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",

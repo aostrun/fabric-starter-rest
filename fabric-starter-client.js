@@ -1,7 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 const _ = require('lodash');
-const cfg = require('./config.js');
+//const cfg = require('./config.js');
 const logger = cfg.log4js.getLogger('FabricStarterClient');
 const Client = require('fabric-client');
 const unzip = require('unzip');
@@ -13,6 +13,12 @@ const x509 = require('x509');
 
 //const networkConfigFile = '../crypto-config/network.json'; // or .yaml
 //const networkConfig = require('../crypto-config/network.json');
+var cfg = null;
+if(process.env.NODE_ENV === 'dev'){
+    cfg = require('./config.local.js');
+}else{
+    cfg = require('./config.js');
+}
 
 const asLocalhost = (process.env.DISCOVER_AS_LOCALHOST === 'true');
 
@@ -23,6 +29,9 @@ class FabricStarterClient {
         this.networkConfig = networkConfig || require('./network')();
         logger.info('constructing with network config', JSON.stringify(this.networkConfig));
         this.client = Client.loadFromConfig(this.networkConfig); // or networkConfigFile
+        
+        // Discover new nodes with specific protocol
+        this.client.setConfigSetting('discovery-protocol', cfg.DISCOVERY_PROTOCOL);
         this.peer = this.client.getPeersForOrg()[0];
         this.org = this.networkConfig.client.organization;
         this.affiliation = this.org;

@@ -5,8 +5,16 @@ const fs = require('fs'),
     shell = require('shelljs'),
     Enum  = require('enumify').Enum;
 
-const cfg = require('./config.js');
+//const cfg = require('./config.js');
 const logger = cfg.log4js.getLogger('FabricCLI');
+
+var cfg = null;
+if(process.env.NODE_ENV === 'dev'){
+    cfg = require('./config.local.js');
+}else{
+    cfg = require('./config.js');
+}
+
 
 
 const CERT_FOLDERS_PREFIXES = {
